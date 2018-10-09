@@ -41,7 +41,7 @@ public interface Record {
 
     <T> Optional<T> get(Key<? extends T> key);
 
-    default <T> T getOrElse(Key<? extends T> key, T defaultValue) {
+    default <T, T2 extends T> T getOrElse(Key<T2> key, T2 defaultValue) {
         return get(key).orElse(defaultValue);
     }
 
