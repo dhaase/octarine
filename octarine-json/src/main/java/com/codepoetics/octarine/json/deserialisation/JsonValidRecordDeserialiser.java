@@ -8,12 +8,12 @@ import com.fasterxml.jackson.core.JsonParser;
 
 import java.io.Reader;
 
-class ValidRecordDeserialiser<S> implements Deserialiser<Validation<S>> {
+class JsonValidRecordDeserialiser<S> implements JsonDeserialiser<Validation<S>> {
 
     private final Schema<S> schema;
-    private final RecordDeserialiser reader;
+    private final JsonRecordDeserialiser reader;
 
-    ValidRecordDeserialiser(Schema<S> schema, RecordDeserialiser reader) {
+    JsonValidRecordDeserialiser(Schema<S> schema, JsonRecordDeserialiser reader) {
         this.schema = schema;
         this.reader = reader;
     }

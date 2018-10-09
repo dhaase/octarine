@@ -1,8 +1,8 @@
 package com.codepoetics.octarine.json.example;
 
 import com.codepoetics.octarine.records.Key;
-import com.codepoetics.octarine.json.deserialisation.RecordDeserialiser;
-import com.codepoetics.octarine.json.serialisation.RecordSerialiser;
+import com.codepoetics.octarine.json.deserialisation.JsonRecordDeserialiser;
+import com.codepoetics.octarine.json.serialisation.JsonRecordSerialiser;
 import com.codepoetics.octarine.records.KeySet;
 import com.codepoetics.octarine.records.Schema;
 import com.codepoetics.octarine.records.ValidRecordKey;
@@ -31,14 +31,14 @@ public interface Person {
 
     public static final Function<Color, String> colourToString = c -> "0x" + Integer.toHexString(c.getRGB()).toUpperCase().substring(2);
 
-    public static final RecordSerialiser serialiser = RecordSerialiser.builder()
+    public static final JsonRecordSerialiser serialiser = JsonRecordSerialiser.builder()
             .writeString(name)
             .writeInteger(age)
             .writeToString(favouriteColour, colourToString)
             .write(address, Address.serialiser)
             .get();
 
-    public static final RecordDeserialiser deserialiser = RecordDeserialiser.builder()
+    public static final JsonRecordDeserialiser deserialiser = JsonRecordDeserialiser.builder()
             .readString(name)
             .readInteger(age)
             .readFromString(favouriteColour, Color::decode)

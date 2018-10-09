@@ -8,7 +8,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.function.Function;
 
-public interface Deserialiser<R> extends Function<JsonParser, R> {
+public interface JsonDeserialiser<R> extends Function<JsonParser, R> {
 
     default R fromReader(Reader reader) {
         JsonFactory factory = new JsonFactory();
@@ -16,7 +16,7 @@ public interface Deserialiser<R> extends Function<JsonParser, R> {
         try (JsonParser parser = factory.createParser(reader)) {
             return apply(parser);
         } catch (IOException e) {
-            throw new DeserialisationException(e);
+            throw new JsonDeserialisationException(e);
         }
     }
 

@@ -4,12 +4,12 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 import java.io.IOException;
 
-public interface SafeSerialiser<T> extends Serialiser<T> {
+public interface JsonSafeSerialiser<T> extends JsonSerialiser<T> {
     default void accept(JsonGenerator j, T value) {
         try {
             unsafeAccept(j, value);
         } catch (IOException e) {
-            throw new SerialisationException(e);
+            throw new JsonSerialisationException(e);
         }
     }
 

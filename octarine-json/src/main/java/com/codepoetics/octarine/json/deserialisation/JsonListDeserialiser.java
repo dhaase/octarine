@@ -1,7 +1,6 @@
 package com.codepoetics.octarine.json.deserialisation;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonStreamContext;
 import com.fasterxml.jackson.core.JsonToken;
 import org.pcollections.PVector;
 import org.pcollections.TreePVector;
@@ -11,35 +10,35 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 
-public final class ListDeserialiser<V> implements SafeDeserialiser<PVector<V>> {
+public final class JsonListDeserialiser<V> implements JsonSafeDeserialiser<PVector<V>> {
 
-    public static <V> ListDeserialiser<V> readingItemsWith(Function<JsonParser, ? extends V> itemDeserialiser) {
-        return new ListDeserialiser<>(itemDeserialiser);
+    public static <V> JsonListDeserialiser<V> readingItemsWith(Function<JsonParser, ? extends V> itemDeserialiser) {
+        return new JsonListDeserialiser<>(itemDeserialiser);
     }
 
-    public static ListDeserialiser<String> readingStrings() {
-        return readingItemsWith(Deserialisers.ofString);
+    public static JsonListDeserialiser<String> readingStrings() {
+        return readingItemsWith(JsonDeserialisers.ofString);
     }
 
-    public static ListDeserialiser<Integer> readingIntegers() {
-        return readingItemsWith(Deserialisers.ofInteger);
+    public static JsonListDeserialiser<Integer> readingIntegers() {
+        return readingItemsWith(JsonDeserialisers.ofInteger);
     }
 
-    public static ListDeserialiser<Long> readingLongs() {
-        return readingItemsWith(Deserialisers.ofLong);
+    public static JsonListDeserialiser<Long> readingLongs() {
+        return readingItemsWith(JsonDeserialisers.ofLong);
     }
 
-    public static ListDeserialiser<Double> readingDoubles() {
-        return readingItemsWith(Deserialisers.ofDouble);
+    public static JsonListDeserialiser<Double> readingDoubles() {
+        return readingItemsWith(JsonDeserialisers.ofDouble);
     }
 
-    public static ListDeserialiser<Boolean> readingBooleans() {
-        return readingItemsWith(Deserialisers.ofBoolean);
+    public static JsonListDeserialiser<Boolean> readingBooleans() {
+        return readingItemsWith(JsonDeserialisers.ofBoolean);
     }
 
     private final Function<JsonParser, ? extends V> itemDeserialiser;
 
-    private ListDeserialiser(Function<JsonParser, ? extends V> itemDeserialiser) {
+    private JsonListDeserialiser(Function<JsonParser, ? extends V> itemDeserialiser) {
         this.itemDeserialiser = itemDeserialiser;
     }
 

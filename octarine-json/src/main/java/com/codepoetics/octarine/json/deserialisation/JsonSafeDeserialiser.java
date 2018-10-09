@@ -4,12 +4,12 @@ import com.fasterxml.jackson.core.JsonParser;
 
 import java.io.IOException;
 
-public interface SafeDeserialiser<S> extends Deserialiser<S> {
+public interface JsonSafeDeserialiser<S> extends JsonDeserialiser<S> {
     default S apply(JsonParser p) {
         try {
             return applyUnsafe(p);
         } catch (IOException e) {
-            throw new DeserialisationException(e);
+            throw new JsonDeserialisationException(e);
         }
     }
 

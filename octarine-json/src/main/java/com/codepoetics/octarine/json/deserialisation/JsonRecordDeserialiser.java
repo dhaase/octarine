@@ -17,13 +17,13 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public final class RecordDeserialiser implements SafeDeserialiser<Record> {
+public final class JsonRecordDeserialiser implements JsonSafeDeserialiser<Record> {
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public static final class Builder implements Supplier<RecordDeserialiser> {
+    public static final class Builder implements Supplier<JsonRecordDeserialiser> {
 
         private final Map<String, Function<JsonParser, Value>> valueReaders = new HashMap<>();
 
@@ -31,8 +31,8 @@ public final class RecordDeserialiser implements SafeDeserialiser<Record> {
         }
 
         @Override
-        public RecordDeserialiser get() {
-            return new RecordDeserialiser((fieldName, parser) ->
+        public JsonRecordDeserialiser get() {
+            return new JsonRecordDeserialiser((fieldName, parser) ->
                     Optional.ofNullable(valueReaders.get(fieldName)).map(r -> r.apply(parser)));
         }
 
@@ -54,81 +54,81 @@ public final class RecordDeserialiser implements SafeDeserialiser<Record> {
         }
 
         public Builder readString(Key<String> key) {
-            return read(key, Deserialisers.ofString);
+            return read(key, JsonDeserialisers.ofString);
         }
 
         public <V> Builder readFromString(Key<? super V> key, Function<String, V> converter) {
-            return read(key, Deserialisers.ofString.andThen(converter));
+            return read(key, JsonDeserialisers.ofString.andThen(converter));
         }
 
         public Builder readInteger(Key<Integer> key) {
-            return read(key, Deserialisers.ofInteger);
+            return read(key, JsonDeserialisers.ofInteger);
         }
 
         public Builder readDouble(Key<Double> key) {
-            return read(key, Deserialisers.ofDouble);
+            return read(key, JsonDeserialisers.ofDouble);
         }
 
         public Builder readBoolean(Key<Boolean> key) {
-            return read(key, Deserialisers.ofBoolean);
+            return read(key, JsonDeserialisers.ofBoolean);
         }
 
         public Builder readLong(Key<Long> key) {
-            return read(key, Deserialisers.ofLong);
+            return read(key, JsonDeserialisers.ofLong);
         }
 
         public <V> Builder readList(Key<PVector<V>> key, Function<JsonParser, ? extends V> deserialiser) {
-            return read(key, ListDeserialiser.readingItemsWith(deserialiser));
+            return read(key, JsonListDeserialiser.readingItemsWith(deserialiser));
         }
 
         public <V> Builder readMap(Key<PMap<String, V>> key, Function<JsonParser, ? extends V> deserialiser) {
-            return read(key, MapDeserialiser.readingValuesWith(deserialiser));
+            return read(key, JsonMapDeserialiser.readingValuesWith(deserialiser));
         }
 
         public <V> Builder readValidRecord(Key<Valid<V>> key, Function<JsonParser, Validation<V>> deserialiser) {
-            return read(key, Deserialisers.ofValid(deserialiser));
+            return read(key, JsonDeserialisers.ofValid(deserialiser));
         }
 
         public Builder readString(Key<String> key, String fieldName) {
-            return read(key, fieldName, Deserialisers.ofString);
+            return read(key, fieldName, JsonDeserialisers.ofString);
         }
 
         public <V> Builder readFromString(Key<? super V> key, String fieldName, Function<String, V> converter) {
-            return read(key, fieldName, Deserialisers.ofString.andThen(converter));
+            return read(key, fieldName, JsonDeserialisers.ofString.andThen(converter));
         }
 
         public Builder readInteger(Key<Integer> key, String fieldName) {
-            return read(key, fieldName, Deserialisers.ofInteger);
+            return read(key, fieldName, JsonDeserialisers.ofInteger);
         }
 
         public Builder readDouble(Key<Double> key, String fieldName) {
-            return read(key, fieldName, Deserialisers.ofDouble);
+            return read(key, fieldName, JsonDeserialisers.ofDouble);
         }
 
         public Builder readBoolean(Key<Boolean> key, String fieldName) {
-            return read(key, fieldName, Deserialisers.ofBoolean);
+            return read(key, fieldName, JsonDeserialisers.ofBoolean);
         }
 
         public Builder readLong(Key<Long> key, String fieldName) {
-            return read(key, fieldName, Deserialisers.ofLong);
+            return read(key, fieldName, JsonDeserialisers.ofLong);
         }
 
         public <V> Builder readList(Key<PVector<V>> key, String fieldName, Function<JsonParser, ? extends V> deserialiser) {
-            return read(key, fieldName, ListDeserialiser.readingItemsWith(deserialiser));
+            return read(key, fieldName, JsonListDeserialiser.readingItemsWith(deserialiser));
         }
 
         public <V> Builder readMap(Key<PMap<String, V>> key, String fieldName, Function<JsonParser, ? extends V> deserialiser) {
-            return read(key, fieldName, MapDeserialiser.readingValuesWith(deserialiser));
+            return read(key, fieldName, JsonMapDeserialiser.readingValuesWith(deserialiser));
         }
 
         public <V> Builder readValidRecord(Key<Valid<V>> key, String fieldName, Function<JsonParser, Validation<V>> deserialiser) {
-            return read(key, fieldName, Deserialisers.ofValid(deserialiser));
+            return read(key, fieldName, JsonDeserialisers.ofValid(deserialiser));
         }
     }
 
     private final BiFunction<String, JsonParser, Optional<Value>> parserMapper;
 
-    private RecordDeserialiser(BiFunction<String, JsonParser, Optional<Value>> parserMapper) {
+    private JsonRecordDeserialiser(BiFunction<String, JsonParser, Optional<Value>> parserMapper) {
         this.parserMapper = parserMapper;
     }
 
@@ -169,8 +169,8 @@ public final class RecordDeserialiser implements SafeDeserialiser<Record> {
         }
     }
 
-    public <S> Deserialiser<Validation<S>> validAgainst(Schema<S> schema) {
-        return new ValidRecordDeserialiser<>(schema, this);
+    public <S> JsonDeserialiser<Validation<S>> validAgainst(Schema<S> schema) {
+        return new JsonValidRecordDeserialiser<>(schema, this);
     }
 
 }

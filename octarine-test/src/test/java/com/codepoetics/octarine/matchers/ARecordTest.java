@@ -1,17 +1,17 @@
 package com.codepoetics.octarine.matchers;
 
 import com.codepoetics.octarine.functional.paths.Path;
-import com.codepoetics.octarine.json.deserialisation.RecordDeserialiser;
-import com.codepoetics.octarine.json.serialisation.RecordSerialiser;
+import com.codepoetics.octarine.json.deserialisation.JsonRecordDeserialiser;
+import com.codepoetics.octarine.json.serialisation.JsonRecordSerialiser;
 import com.codepoetics.octarine.records.*;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.junit.Test;
 
 import static com.codepoetics.octarine.Octarine.*;
-import static com.codepoetics.octarine.json.deserialisation.Deserialisers.ofString;
-import static com.codepoetics.octarine.json.serialisation.Serialisers.toInteger;
-import static com.codepoetics.octarine.json.serialisation.Serialisers.toString;
+import static com.codepoetics.octarine.json.deserialisation.JsonDeserialisers.ofString;
+import static com.codepoetics.octarine.json.serialisation.JsonSerialisers.toInteger;
+import static com.codepoetics.octarine.json.serialisation.JsonSerialisers.toString;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -26,12 +26,12 @@ public class ARecordTest {
 
         Schema<Address> schema = mandatoryKeys::accept;
 
-        RecordDeserialiser reader = RecordDeserialiser.builder()
+        JsonRecordDeserialiser reader = JsonRecordDeserialiser.builder()
                 .readList(addressLines, ofString)
                 .readString(postcode)
                 .get();
 
-        RecordSerialiser writer = RecordSerialiser.builder()
+        JsonRecordSerialiser writer = JsonRecordSerialiser.builder()
                 .writeList(addressLines, toString)
                 .writeString(postcode)
                 .get();
@@ -49,13 +49,13 @@ public class ARecordTest {
             address.apply(r).ifPresent(a -> Address.schema.accept(a, v));
         };
 
-        RecordDeserialiser reader = RecordDeserialiser.builder()
+        JsonRecordDeserialiser reader = JsonRecordDeserialiser.builder()
                 .readString(name)
                 .readInteger(age)
                 .read(address, Address.reader)
                 .get();
 
-        RecordSerialiser writer = RecordSerialiser.builder()
+        JsonRecordSerialiser writer = JsonRecordSerialiser.builder()
             .write(name, toString)
             .write(age, toInteger)
             .write(address, Address.writer)

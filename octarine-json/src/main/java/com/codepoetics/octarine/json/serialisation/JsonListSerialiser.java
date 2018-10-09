@@ -5,14 +5,14 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import java.io.IOException;
 import java.util.Collection;
 
-public final class ListSerialiser<T> implements SafeSerialiser<Collection<? extends T>> {
-    public static <T> ListSerialiser<T> writingItemsWith(Serialiser<? super T> itemSerialiser) {
-        return new ListSerialiser<>(itemSerialiser);
+public final class JsonListSerialiser<T> implements JsonSafeSerialiser<Collection<? extends T>> {
+    public static <T> JsonListSerialiser<T> writingItemsWith(JsonSerialiser<? super T> itemSerialiser) {
+        return new JsonListSerialiser<>(itemSerialiser);
     }
 
-    private final Serialiser<? super T> itemSerialiser;
+    private final JsonSerialiser<? super T> itemSerialiser;
 
-    private ListSerialiser(Serialiser<? super T> itemSerialiser) {
+    private JsonListSerialiser(JsonSerialiser<? super T> itemSerialiser) {
         this.itemSerialiser = itemSerialiser;
     }
 

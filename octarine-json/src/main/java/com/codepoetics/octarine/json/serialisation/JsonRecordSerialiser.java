@@ -12,13 +12,13 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public final class RecordSerialiser implements SafeSerialiser<Record> {
+public final class JsonRecordSerialiser implements JsonSafeSerialiser<Record> {
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public static final class Builder implements Supplier<RecordSerialiser> {
+    public static final class Builder implements Supplier<JsonRecordSerialiser> {
         private final Map<Key<?>, BiConsumer<JsonGenerator, ?>> serialiserMap = new LinkedHashMap<>();
 
         public <V> Builder write(Key<? extends V> key, String fieldName, BiConsumer<JsonGenerator, ? super V> serialiser) {
@@ -27,7 +27,7 @@ public final class RecordSerialiser implements SafeSerialiser<Record> {
                     generator.writeFieldName(fieldName);
                     serialiser.accept(generator, value);
                 } catch (IOException e) {
-                    throw new SerialisationException(e);
+                    throw new JsonSerialisationException(e);
                 }
             };
             serialiserMap.put(key, keyValueWriter);
@@ -47,11 +47,11 @@ public final class RecordSerialiser implements SafeSerialiser<Record> {
         }
 
         public Builder writeString(Key<String> key) {
-            return write(key, Serialisers.toString);
+            return write(key, JsonSerialisers.toString);
         }
 
         public Builder writeString(Key<String> key, String fieldName) {
-            return write(key, fieldName, Serialisers.toString);
+            return write(key, fieldName, JsonSerialisers.toString);
         }
 
         public <V> Builder writeToString(Key<V> key) {
@@ -67,67 +67,67 @@ public final class RecordSerialiser implements SafeSerialiser<Record> {
         }
 
         public <V> Builder writeToString(Key<V> key, String fieldName, Function<V, String> converter) {
-            return write(key, fieldName, (g, v) -> Serialisers.toString.accept(g, converter.apply(v)));
+            return write(key, fieldName, (g, v) -> JsonSerialisers.toString.accept(g, converter.apply(v)));
         }
 
         public Builder writeInteger(Key<Integer> key) {
-            return write(key, Serialisers.toInteger);
+            return write(key, JsonSerialisers.toInteger);
         }
 
         public Builder writeInteger(Key<Integer> key, String fieldName) {
-            return write(key, fieldName, Serialisers.toInteger);
+            return write(key, fieldName, JsonSerialisers.toInteger);
         }
 
         public Builder writeDouble(Key<Double> key) {
-            return write(key, Serialisers.toDouble);
+            return write(key, JsonSerialisers.toDouble);
         }
 
         public Builder writeDouble(Key<Double> key, String fieldName) {
-            return write(key, fieldName, Serialisers.toDouble);
+            return write(key, fieldName, JsonSerialisers.toDouble);
         }
 
         public Builder writeLong(Key<Long> key) {
-            return write(key, Serialisers.toLong);
+            return write(key, JsonSerialisers.toLong);
         }
 
         public Builder writeLong(Key<Long> key, String fieldName) {
-            return write(key, fieldName, Serialisers.toLong);
+            return write(key, fieldName, JsonSerialisers.toLong);
         }
 
 
         public Builder writeBoolean(Key<Boolean> key) {
-            return write(key, Serialisers.toBoolean);
+            return write(key, JsonSerialisers.toBoolean);
         }
 
         public Builder writeBoolean(Key<Boolean> key, String fieldName) {
-            return write(key, fieldName, Serialisers.toBoolean);
+            return write(key, fieldName, JsonSerialisers.toBoolean);
         }
 
-        public <V> Builder writeList(Key<PVector<V>> key, Serialiser<V> itemSerialiser) {
-            return write(key, ListSerialiser.writingItemsWith(itemSerialiser));
+        public <V> Builder writeList(Key<PVector<V>> key, JsonSerialiser<V> itemSerialiser) {
+            return write(key, JsonListSerialiser.writingItemsWith(itemSerialiser));
         }
 
-        public <V> Builder writeList(Key<PVector<V>> key, String fieldName, Serialiser<V> itemSerialiser) {
-            return write(key, fieldName, ListSerialiser.writingItemsWith(itemSerialiser));
+        public <V> Builder writeList(Key<PVector<V>> key, String fieldName, JsonSerialiser<V> itemSerialiser) {
+            return write(key, fieldName, JsonListSerialiser.writingItemsWith(itemSerialiser));
         }
 
-        public <V> Builder writeMap(Key<Map<String, V>> key, Serialiser<V> valueSerialiser) {
-            return write(key, MapSerialiser.writingValuesWith(valueSerialiser));
+        public <V> Builder writeMap(Key<Map<String, V>> key, JsonSerialiser<V> valueSerialiser) {
+            return write(key, JsonMapSerialiser.writingValuesWith(valueSerialiser));
         }
 
-        public <V> Builder writeMap(Key<Map<String, V>> key, String fieldName, Serialiser<V> valueSerialiser) {
-            return write(key, fieldName, MapSerialiser.writingValuesWith(valueSerialiser));
+        public <V> Builder writeMap(Key<Map<String, V>> key, String fieldName, JsonSerialiser<V> valueSerialiser) {
+            return write(key, fieldName, JsonMapSerialiser.writingValuesWith(valueSerialiser));
         }
 
         @Override
-        public RecordSerialiser get() {
-            return new RecordSerialiser(serialiserMap);
+        public JsonRecordSerialiser get() {
+            return new JsonRecordSerialiser(serialiserMap);
         }
     }
 
     private final Map<Key<?>, BiConsumer<JsonGenerator, ?>> serialiserMap;
 
-    public RecordSerialiser(Map<Key<?>, BiConsumer<JsonGenerator, ?>> serialiserMap) {
+    public JsonRecordSerialiser(Map<Key<?>, BiConsumer<JsonGenerator, ?>> serialiserMap) {
         this.serialiserMap = serialiserMap;
     }
 

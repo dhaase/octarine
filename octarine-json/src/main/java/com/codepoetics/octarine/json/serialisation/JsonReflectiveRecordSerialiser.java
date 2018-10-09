@@ -18,14 +18,14 @@ import java.util.stream.Stream;
 
 import static com.codepoetics.octarine.Octarine.$$;
 
-public class ReflectiveRecordSerialiser extends JsonSerializer<Record> {
+public class JsonReflectiveRecordSerialiser extends JsonSerializer<Record> {
 
     private static final ObjectMapper DEFAULT_MAPPER = mapperWith();
 
     public static ObjectMapper mapperWith(JsonSerializer<?>...extraSerialisers) {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule simpleModule = new SimpleModule("SimpleModule", Version.unknownVersion());
-        simpleModule.addSerializer(new ReflectiveRecordSerialiser());
+        simpleModule.addSerializer(new JsonReflectiveRecordSerialiser());
         simpleModule.addSerializer(new StreamSerialiser());
         Stream.of(extraSerialisers).forEach(simpleModule::addSerializer);
 
