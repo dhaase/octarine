@@ -26,7 +26,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public class BsonRecordDeserialiser implements SafeBsonDeserialiser<Record> {
+public class BsonRecordDeserialiser implements BsonSafeDeserialiser<Record> {
 
     public static Builder builder() {
         return new Builder();

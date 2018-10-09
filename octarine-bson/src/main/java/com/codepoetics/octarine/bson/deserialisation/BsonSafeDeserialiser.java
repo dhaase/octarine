@@ -7,7 +7,7 @@ package com.codepoetics.octarine.bson.deserialisation;
 import org.bson.BsonInvalidOperationException;
 import org.bson.BsonValue;
 
-public interface SafeBsonDeserialiser<S> extends BsonDeserialiser<S> {
+public interface BsonSafeDeserialiser<S> extends BsonDeserialiser<S> {
     default S apply(BsonValue p) {
         try {
             return applyUnsafe(p);

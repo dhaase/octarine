@@ -12,7 +12,7 @@ import org.bson.BsonInvalidOperationException;
 import org.bson.BsonValue;
 
 
-public class BsonValidRecordDeserialiser<T> implements SafeBsonDeserialiser<Validation<T>> {
+public class BsonValidRecordDeserialiser<T> implements BsonSafeDeserialiser<Validation<T>> {
 
     private final Schema<T> schema;
 

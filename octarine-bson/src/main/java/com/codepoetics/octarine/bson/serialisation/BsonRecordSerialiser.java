@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
-public class BsonRecordSerialiser implements SafeBsonSerialiser<Record> {
+public class BsonRecordSerialiser implements BsonSafeSerialiser<Record> {
 
     public static Builder builder() {
         return new Builder();

@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BsonListSerialiser<T> implements SafeBsonSerialiser<Collection<? extends T>> {
+public class BsonListSerialiser<T> implements BsonSafeSerialiser<Collection<? extends T>> {
     public static <T> BsonListSerialiser<T> writingItemsWith(BsonSerialiser<? super T> itemSerialiser) {
         return new BsonListSerialiser<>(itemSerialiser);
     }

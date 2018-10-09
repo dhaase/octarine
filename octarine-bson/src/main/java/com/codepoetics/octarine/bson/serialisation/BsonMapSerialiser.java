@@ -11,7 +11,7 @@ import org.bson.BsonValue;
 import java.io.IOException;
 import java.util.Map;
 
-public class BsonMapSerialiser<T> implements SafeBsonSerialiser<Map<String, ? extends T>> {
+public class BsonMapSerialiser<T> implements BsonSafeSerialiser<Map<String, ? extends T>> {
     public static <T> BsonMapSerialiser<T> writingValuesWith(BsonSerialiser<? super T> valueSerialiser) {
         return new BsonMapSerialiser<>(valueSerialiser);
     }

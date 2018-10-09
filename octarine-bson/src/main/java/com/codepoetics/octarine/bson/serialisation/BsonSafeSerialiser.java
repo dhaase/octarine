@@ -8,7 +8,7 @@ import org.bson.BsonValue;
 
 import java.io.IOException;
 
-public interface SafeBsonSerialiser<T> extends BsonSerialiser<T> {
+public interface BsonSafeSerialiser<T> extends BsonSerialiser<T> {
     default BsonValue apply(T value) {
         try {
             return applyUnsafe(value);

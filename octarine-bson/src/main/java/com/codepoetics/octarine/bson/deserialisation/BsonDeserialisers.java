@@ -15,21 +15,21 @@ import java.util.function.Function;
 
 public interface BsonDeserialisers {
 
-    SafeBsonDeserialiser<Boolean> ofBoolean = (v) -> v.asBoolean().getValue();
+    BsonSafeDeserialiser<Boolean> ofBoolean = (v) -> v.asBoolean().getValue();
 
-    SafeBsonDeserialiser<Date> ofDate = (v) -> new Date(v.asDateTime().getValue());
+    BsonSafeDeserialiser<Date> ofDate = (v) -> new Date(v.asDateTime().getValue());
 
-    SafeBsonDeserialiser<Double> ofDouble = (v) -> v.asDouble().getValue();
+    BsonSafeDeserialiser<Double> ofDouble = (v) -> v.asDouble().getValue();
 
-    SafeBsonDeserialiser<Integer> ofInteger = (v) -> v.asInt32().getValue();
+    BsonSafeDeserialiser<Integer> ofInteger = (v) -> v.asInt32().getValue();
 
-    SafeBsonDeserialiser<Long> ofLong = (v) -> v.asInt64().getValue();
+    BsonSafeDeserialiser<Long> ofLong = (v) -> v.asInt64().getValue();
 
-    SafeBsonDeserialiser<ObjectId> ofObjectId = (v) -> v.asObjectId().getValue();
+    BsonSafeDeserialiser<ObjectId> ofObjectId = (v) -> v.asObjectId().getValue();
 
-    SafeBsonDeserialiser<String> ofString = (v) -> v.asString().getValue();
+    BsonSafeDeserialiser<String> ofString = (v) -> v.asString().getValue();
 
-    static <V> SafeBsonDeserialiser<Valid<V>> ofValid(Function<BsonValue, ? extends Validation<V>> deserialiser) {
+    static <V> BsonSafeDeserialiser<Valid<V>> ofValid(Function<BsonValue, ? extends Validation<V>> deserialiser) {
         return parser -> deserialiser.apply(parser).get();
     }
 }

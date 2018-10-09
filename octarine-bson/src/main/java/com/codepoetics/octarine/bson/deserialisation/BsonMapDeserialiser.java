@@ -14,7 +14,7 @@ import org.pcollections.PMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BsonMapDeserialiser<T> implements SafeBsonDeserialiser<PMap<String, T>> {
+public class BsonMapDeserialiser<T> implements BsonSafeDeserialiser<PMap<String, T>> {
     public static <T> BsonMapDeserialiser<T> readingValuesWith(BsonDeserialiser<? extends T> valueDeserialiser) {
         return new BsonMapDeserialiser<>(valueDeserialiser);
     }

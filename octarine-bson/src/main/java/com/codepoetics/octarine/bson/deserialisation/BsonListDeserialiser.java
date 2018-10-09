@@ -14,7 +14,7 @@ import org.pcollections.TreePVector;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BsonListDeserialiser<V> implements SafeBsonDeserialiser<PVector<V>> {
+public class BsonListDeserialiser<V> implements BsonSafeDeserialiser<PVector<V>> {
     public static <V> BsonListDeserialiser<V> readingItemsWith(BsonDeserialiser<? extends V> itemDeserialiser) {
         return new BsonListDeserialiser<>(itemDeserialiser);
     }
