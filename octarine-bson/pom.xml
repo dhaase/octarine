@@ -16,7 +16,7 @@
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
+            <artifactId>bson</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.npathai</groupId>
