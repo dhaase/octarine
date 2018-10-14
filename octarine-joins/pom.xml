@@ -13,7 +13,6 @@
         <dependency>
             <groupId>com.codepoetics</groupId>
             <artifactId>octarine-functional</artifactId>
-            <version>0.19-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

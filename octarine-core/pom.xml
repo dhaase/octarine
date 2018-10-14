@@ -8,20 +8,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>octarine-core</artifactId>
-    <dependencies>
 
+    <dependencies>
         <dependency>
             <groupId>com.codepoetics</groupId>
             <artifactId>octarine-functional</artifactId>
-            <version>0.19-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>org.databene</groupId>
             <artifactId>contiperf</artifactId>
-            <version>2.2.0</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>
